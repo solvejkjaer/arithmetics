@@ -13,10 +13,51 @@ library(tibble)
 library(shiny)
 library(jspsychr)
 library(dplyr)
+library(tidyverse)
+library(readxl)
 
 # base_dir <- "/srv/shiny-server/experimento-TFM"
 base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/"
 jspsych_dir <- file.path(base_dir, "jspsych-6-3-1")
+
+write_to_file <- function(json_object,file_name,var_name=NULL){
+  if(is.null(var_name)){
+    write(json_object, file=file_name)
+  }else{
+    write(paste("var ",var_name,"= ", json_object), file=file_name)
+  }
+}
+
+stimuli<-read_excel(file.path(base_dir,"materiale.xlsx"))
+# nb long format!
+
+stroop_stim <- data.frame( stimulus = length(54*3),
+                           word = rep(stim, each=3),
+                           color = rep(c("red","green","blue"), 54),
+                           response = rep(response_config, 54),
+                           resp_config = rep(rand_resp[[1]], 54*3),
+                           stim_type = rep(c("1", "2", "3", "4", "5", "6"), each=9*3), 
+                           id = "stroop_stim",
+                           fontsize = "60pt",
+                           lineheight = "normal") %>%
+  mutate(stim_type = recode(stim_type, '1' = "gender_masc", '2' = "gender_neut", '3' = "gender_col", '4' = "control_lemma", '5' = "control_der", '6' = "control_sing"))
+
+# write html definitions to the stimulus column
+# note this could be added as a pipe to the above, setting df=.
+stroop_stim$stimulus <- html_stimulus(df = stroop_stim, 
+                                      html_content = "word",
+                                      html_element = "p",
+                                      column_names = c("color","fontsize","lineheight"),
+                                      css = c("color", "font-size", "line-height"),
+                                      id = "id")
+
+# create json object from dataframe
+stimulus_json <- stimulus_df_to_json(df = stroop_stim,
+                                     stimulus = "stimulus",
+                                     data = c("word","color","response","stim_type"))
+
+# write json object to script
+write_to_file(stimulus_json, file.path(base_dir, "test_stimuli.js"), "test_stimuli")
 
 ###############################
 ##### jsPsych starts here #####
