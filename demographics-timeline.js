@@ -4,9 +4,9 @@ function new_timeline() {
     timeline: [{
       type: "survey-text",
       questions: [
-        {prompt: "Por favor indique su edad.", name: 'Age', required: true},
-        {prompt: "Por favor indique de qué país es usted.", name: 'Nationality', required: true},
-        {prompt: "Por favor indique su país de residencia actual", name: 'Residence', required: true}
+        {prompt: "Hvor gammel er du?", name: 'Age', required: true},
+        {prompt: "Hvad er dit modersmål?", name: 'Native language', required: true},
+        {prompt: "Hvor bor du?", name: 'Residence', required: true}
       ],
       post_trial_gap: 500
   }],

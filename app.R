@@ -29,32 +29,35 @@ write_to_file <- function(json_object,file_name,var_name=NULL){
 }
 
 stimuli<-read_excel(file.path(base_dir,"materiale.xlsx"))
-# nb long format!
+long_stimuli <- stimuli %>% 
+  pivot_longer(
+    cols = -c(item,sentence),
+    names_to = c(".value","condition"),
+    names_pattern = '(.+)_(.+)'
+  )
 
-stroop_stim <- data.frame( stimulus = length(54*3),
-                           word = rep(stim, each=3),
-                           color = rep(c("red","green","blue"), 54),
-                           response = rep(response_config, 54),
-                           resp_config = rep(rand_resp[[1]], 54*3),
-                           stim_type = rep(c("1", "2", "3", "4", "5", "6"), each=9*3), 
-                           id = "stroop_stim",
-                           fontsize = "60pt",
-                           lineheight = "normal") %>%
-  mutate(stim_type = recode(stim_type, '1' = "gender_masc", '2' = "gender_neut", '3' = "gender_col", '4' = "control_lemma", '5' = "control_der", '6' = "control_sing"))
+math_stim <- data.frame(long_stimuli,
+                        fontsize="60pt",
+                        lineheight="normal")
 
 # write html definitions to the stimulus column
 # note this could be added as a pipe to the above, setting df=.
-stroop_stim$stimulus <- html_stimulus(df = stroop_stim, 
-                                      html_content = "word",
+math_stim$stimulus <- html_stimulus(df = math_stim, 
+                                      html_content = "math",
                                       html_element = "p",
-                                      column_names = c("color","fontsize","lineheight"),
-                                      css = c("color", "font-size", "line-height"),
-                                      id = "id")
+                                      column_names = c("fontsize","lineheight"),
+                                      css = c("font-size", "line-height"))
+
+math_stim$sent_stim <- html_stimulus(df = math_stim, 
+                                    html_content = "sentence",
+                                    html_element = "p",
+                                    column_names = c("fontsize","lineheight"),
+                                    css = c("font-size", "line-height"))
 
 # create json object from dataframe
-stimulus_json <- stimulus_df_to_json(df = stroop_stim,
+stimulus_json <- stimulus_df_to_json(df = math_stim,
                                      stimulus = "stimulus",
-                                     data = c("word","color","response","stim_type"))
+                                     data = c("sentence","math","answer","condition"))
 
 # write json object to script
 write_to_file(stimulus_json, file.path(base_dir, "test_stimuli.js"), "test_stimuli")
@@ -109,6 +112,24 @@ head <- tags$head(
 
 #########
 
+##Instructions
+ui_instr <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "instr-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+instr <- page(
+  ui = ui_instr,
+  label = "instr",
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
 ##Test
 ui_test <- tags$div(
   head,
@@ -121,6 +142,45 @@ ui_test <- tags$div(
 test <- page(
   ui = ui_test,
   label = "test",
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
+##SURVEY
+#survey <- (
+
+##Age, native language and residence
+ui_demographics <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "demographics-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+demographics <- page(
+  ui = ui_demographics,
+  label = 'demographics',
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
+##Gender
+ui_gender <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "gender-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+gender <- page(
+  ui = ui_gender,
+  label = 'gender',
   get_answer = function(input, ...)
     input$jspsych_results,
   validate = function(answer, ...)

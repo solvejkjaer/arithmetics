@@ -1,1460 +1,731 @@
 var  test_stimuli =  [
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los alumnos<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>3 + ( 6 - 2 ) / 2=<\/p>",
     "data": {
-      "word": "los alumnos",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_masc"
+      "sentence": "Pensionisten klagede over indholdet af brochurerne, som var",
+      "math": "3 + ( 6 - 2 ) / 2=",
+      "answer": 5,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los alumnos<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>3 + 6 -2 / 2=<\/p>",
     "data": {
-      "word": "los alumnos",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Pensionisten klagede over indholdet af brochurerne, som var",
+      "math": "3 + 6 -2 / 2=",
+      "answer": 8,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los alumnos<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>36 / 6 =<\/p>",
     "data": {
-      "word": "los alumnos",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Pensionisten klagede over indholdet af brochurerne, som var",
+      "math": "36 / 6 =",
+      "answer": 6,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los estudiantes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>80 - ( 9 + 1 ) × 5=<\/p>",
     "data": {
-      "word": "los estudiantes",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_masc"
+      "sentence": "Kommisionen takkede kilden til donationerne, som var",
+      "math": "80 - ( 9 + 1 ) × 5=",
+      "answer": 30,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los estudiantes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>80 - 9 + 1 × 5=<\/p>",
     "data": {
-      "word": "los estudiantes",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Kommisionen takkede kilden til donationerne, som var",
+      "math": "80 - 9 + 1 × 5=",
+      "answer": 66,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los estudiantes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>80 - 22 =<\/p>",
     "data": {
-      "word": "los estudiantes",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Kommisionen takkede kilden til donationerne, som var",
+      "math": "80 - 22 =",
+      "answer": 58,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los vecinos<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>10 + ( 7 - 5 ) × 3=<\/p>",
     "data": {
-      "word": "los vecinos",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_masc"
+      "sentence": "Turistguiden fortalte om klokkerne i kirketårnet, som var",
+      "math": "10 + ( 7 - 5 ) × 3=",
+      "answer": 16,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los vecinos<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>10 + 7 - 5 × 3=<\/p>",
     "data": {
-      "word": "los vecinos",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Turistguiden fortalte om klokkerne i kirketårnet, som var",
+      "math": "10 + 7 - 5 × 3=",
+      "answer": 2,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los vecinos<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>17 + 52 =<\/p>",
     "data": {
-      "word": "los vecinos",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Turistguiden fortalte om klokkerne i kirketårnet, som var",
+      "math": "17 + 52 =",
+      "answer": 69,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los diputados<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>67 - ( 24 - 12 ) / 3=<\/p>",
     "data": {
-      "word": "los diputados",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_masc"
+      "sentence": "Forskeren kritiserede metoderne i studiet, som var",
+      "math": "67 - ( 24 - 12 ) / 3=",
+      "answer": 63,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los diputados<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>67 - 24 - 12 / 3=<\/p>",
     "data": {
-      "word": "los diputados",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Forskeren kritiserede metoderne i studiet, som var",
+      "math": "67 - 24 - 12 / 3=",
+      "answer": 39,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los diputados<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>37 × 2 =<\/p>",
     "data": {
-      "word": "los diputados",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Forskeren kritiserede metoderne i studiet, som var",
+      "math": "37 × 2 =",
+      "answer": 74,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los clientes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>41 - ( 8 + 3 ) × 3=<\/p>",
     "data": {
-      "word": "los clientes",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_masc"
+      "sentence": "Ægteparret læste artiklerne i avisen, som var",
+      "math": "41 - ( 8 + 3 ) × 3=",
+      "answer": 8,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los clientes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>41 - 8 + 3 × 3=<\/p>",
     "data": {
-      "word": "los clientes",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Ægteparret læste artiklerne i avisen, som var",
+      "math": "41 - 8 + 3 × 3=",
+      "answer": 42,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los clientes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>41 + 18 =<\/p>",
     "data": {
-      "word": "los clientes",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Ægteparret læste artiklerne i avisen, som var",
+      "math": "41 + 18 =",
+      "answer": 59,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los profesores<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>20 + ( 32 – 6 ) / 2=<\/p>",
     "data": {
-      "word": "los profesores",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_masc"
+      "sentence": "Husejeren gemte brevene fra kontoret, som var",
+      "math": "20 + ( 32 – 6 ) / 2=",
+      "answer": 28,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los profesores<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>20 + 32 – 6 / 2 =<\/p>",
     "data": {
-      "word": "los profesores",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Husejeren gemte brevene fra kontoret, som var",
+      "math": "20 + 32 – 6 / 2 =",
+      "answer": 49,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los profesores<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>20 + 32 =<\/p>",
     "data": {
-      "word": "los profesores",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Husejeren gemte brevene fra kontoret, som var",
+      "math": "20 + 32 =",
+      "answer": 52,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los abogados<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>9 + ( 20 + 10 ) / 5=<\/p>",
     "data": {
-      "word": "los abogados",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_masc"
+      "sentence": "Tjeneren hentede tallerkenerne fra bordet, som var",
+      "math": "9 + ( 20 + 10 ) / 5=",
+      "answer": 15,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los abogados<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>9 + 20 + 10 / 5=<\/p>",
     "data": {
-      "word": "los abogados",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Tjeneren hentede tallerkenerne fra bordet, som var",
+      "math": "9 + 20 + 10 / 5=",
+      "answer": 31,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los abogados<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>9 + 25 =<\/p>",
     "data": {
-      "word": "los abogados",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Tjeneren hentede tallerkenerne fra bordet, som var",
+      "math": "9 + 25 =",
+      "answer": 34,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los ministros<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>56 – ( 5 + 3 ) × 4=<\/p>",
     "data": {
-      "word": "los ministros",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_masc"
+      "sentence": "Sygeplejersken tog glasset med pillerne, som var",
+      "math": "56 – ( 5 + 3 ) × 4=",
+      "answer": 24,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los ministros<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>56 – 5 + 3 × 4=<\/p>",
     "data": {
-      "word": "los ministros",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Sygeplejersken tog glasset med pillerne, som var",
+      "math": "56 – 5 + 3 × 4=",
+      "answer": 63,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los ministros<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>56 / 8 =<\/p>",
     "data": {
-      "word": "los ministros",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Sygeplejersken tog glasset med pillerne, som var",
+      "math": "56 / 8 =",
+      "answer": 7,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los empresarios<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>15 – ( 12 – 4 ) / 2=<\/p>",
     "data": {
-      "word": "los empresarios",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_masc"
+      "sentence": "Børnene ønskede sig bamserne fra legetøjsbutikken, som var",
+      "math": "15 – ( 12 – 4 ) / 2=",
+      "answer": 11,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los empresarios<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>15 – 12 – 4 / 2=<\/p>",
     "data": {
-      "word": "los empresarios",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Børnene ønskede sig bamserne fra legetøjsbutikken, som var",
+      "math": "15 – 12 – 4 / 2=",
+      "answer": 1,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los empresarios<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>15 × 4 =<\/p>",
     "data": {
-      "word": "los empresarios",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_masc"
+      "sentence": "Børnene ønskede sig bamserne fra legetøjsbutikken, som var",
+      "math": "15 × 4 =",
+      "answer": 60,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>les alumnes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>31 + ( 8 – 5 ) × 2 =<\/p>",
     "data": {
-      "word": "les alumnes",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_neut"
+      "sentence": "Kunden spurgte efter prisen på varerne, som var",
+      "math": "31 + ( 8 – 5 ) × 2 =",
+      "answer": 37,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>les alumnes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>31 + 8 – 5 × 2=<\/p>",
     "data": {
-      "word": "les alumnes",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Kunden spurgte efter prisen på varerne, som var",
+      "math": "31 + 8 – 5 × 2=",
+      "answer": 29,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>les alumnes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>31 + 7 =<\/p>",
     "data": {
-      "word": "les alumnes",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Kunden spurgte efter prisen på varerne, som var",
+      "math": "31 + 7 =",
+      "answer": 38,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>les estudiantes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>2 + ( 8 + 4 ) × 3=<\/p>",
     "data": {
-      "word": "les estudiantes",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_neut"
+      "sentence": "Vandreren fulgte vejen til bjergene, som var",
+      "math": "2 + ( 8 + 4 ) × 3=",
+      "answer": 38,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>les estudiantes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>2 + 8 + 4 × 3=<\/p>",
     "data": {
-      "word": "les estudiantes",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Vandreren fulgte vejen til bjergene, som var",
+      "math": "2 + 8 + 4 × 3=",
+      "answer": 22,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>les estudiantes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>8 × 9 =<\/p>",
     "data": {
-      "word": "les estudiantes",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Vandreren fulgte vejen til bjergene, som var",
+      "math": "8 × 9 =",
+      "answer": 72,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>les vecines<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>43 – ( 27 – 9 ) / 3=<\/p>",
     "data": {
-      "word": "les vecines",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_neut"
+      "sentence": "Vinduespudseren polerede vinduerne i bygningen, som var",
+      "math": "43 – ( 27 – 9 ) / 3=",
+      "answer": 37,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>les vecines<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>43 - 27 - 9 / 3 =<\/p>",
     "data": {
-      "word": "les vecines",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Vinduespudseren polerede vinduerne i bygningen, som var",
+      "math": "43 - 27 - 9 / 3 =",
+      "answer": 13,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>les vecines<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>43 - 27 =<\/p>",
     "data": {
-      "word": "les vecines",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Vinduespudseren polerede vinduerne i bygningen, som var",
+      "math": "43 - 27 =",
+      "answer": 16,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>les diputades<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>7 + ( 28 - 4 ) × 2=<\/p>",
     "data": {
-      "word": "les diputades",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_neut"
+      "sentence": "Viceværten vaskede trapperne i opgangen, som var",
+      "math": "7 + ( 28 - 4 ) × 2=",
+      "answer": 55,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>les diputades<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>7 + 28 – 4 × 2=<\/p>",
     "data": {
-      "word": "les diputades",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Viceværten vaskede trapperne i opgangen, som var",
+      "math": "7 + 28 – 4 × 2=",
+      "answer": 27,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>les diputades<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>7 + 24 =<\/p>",
     "data": {
-      "word": "les diputades",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Viceværten vaskede trapperne i opgangen, som var",
+      "math": "7 + 24 =",
+      "answer": 31,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>les clientes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>85 - ( 14 + 21 ) / 7 =<\/p>",
     "data": {
-      "word": "les clientes",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_neut"
+      "sentence": "Aktivisten demonstrerede mod forureningen af søerne, som var",
+      "math": "85 - ( 14 + 21 ) / 7 =",
+      "answer": 80,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>les clientes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>85 - 14 + 21 / 7 =<\/p>",
     "data": {
-      "word": "les clientes",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Aktivisten demonstrerede mod forureningen af søerne, som var",
+      "math": "85 - 14 + 21 / 7 =",
+      "answer": 74,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>les clientes<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>85 / 5 =<\/p>",
     "data": {
-      "word": "les clientes",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Aktivisten demonstrerede mod forureningen af søerne, som var",
+      "math": "85 / 5 =",
+      "answer": 17,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>les profesores<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>19 + ( 24 - 8 ) / 4 =<\/p>",
     "data": {
-      "word": "les profesores",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_neut"
+      "sentence": "Spilleren fejrede sejrene i turneringen, som var",
+      "math": "19 + ( 24 - 8 ) / 4 =",
+      "answer": 23,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>les profesores<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>19 + 24 - 8 / 4 =<\/p>",
     "data": {
-      "word": "les profesores",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Spilleren fejrede sejrene i turneringen, som var",
+      "math": "19 + 24 - 8 / 4 =",
+      "answer": 41,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>les profesores<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>8 + 19 =<\/p>",
     "data": {
-      "word": "les profesores",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Spilleren fejrede sejrene i turneringen, som var",
+      "math": "8 + 19 =",
+      "answer": 27,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>les abogades<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>10 + ( 6 + 3 ) × 2 =<\/p>",
     "data": {
-      "word": "les abogades",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_neut"
+      "sentence": "Journalisten skrev om kampene i grænseregionen, som var",
+      "math": "10 + ( 6 + 3 ) × 2 =",
+      "answer": 28,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>les abogades<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>10 + 6 + 3 × 2 =<\/p>",
     "data": {
-      "word": "les abogades",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Journalisten skrev om kampene i grænseregionen, som var",
+      "math": "10 + 6 + 3 × 2 =",
+      "answer": 22,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>les abogades<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>60 - 33 =<\/p>",
     "data": {
-      "word": "les abogades",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Journalisten skrev om kampene i grænseregionen, som var",
+      "math": "60 - 33 =",
+      "answer": 27,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>les ministres<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>90 - ( 5 + 15 ) / 5 =<\/p>",
     "data": {
-      "word": "les ministres",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_neut"
+      "sentence": "Gartneren vandede tomaterne i drivhuset, som var",
+      "math": "90 - ( 5 + 15 ) / 5 =",
+      "answer": 86,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>les ministres<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>90 - 5 + 15 / 5 =<\/p>",
     "data": {
-      "word": "les ministres",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Gartneren vandede tomaterne i drivhuset, som var",
+      "math": "90 - 5 + 15 / 5 =",
+      "answer": 88,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>les ministres<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>5 + 15 =<\/p>",
     "data": {
-      "word": "les ministres",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Gartneren vandede tomaterne i drivhuset, som var",
+      "math": "5 + 15 =",
+      "answer": 20,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>les empresaries<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>56 + ( 6 + 6 ) / 2 =<\/p>",
     "data": {
-      "word": "les empresaries",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_neut"
+      "sentence": "Sekretæren afventede dokumenterne fra partnerselskabet, som var",
+      "math": "56 + ( 6 + 6 ) / 2 =",
+      "answer": 62,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>les empresaries<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>56 + 6 + 6 / 2 =<\/p>",
     "data": {
-      "word": "les empresaries",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Sekretæren afventede dokumenterne fra partnerselskabet, som var",
+      "math": "56 + 6 + 6 / 2 =",
+      "answer": 65,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>les empresaries<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>56 / 2 =<\/p>",
     "data": {
-      "word": "les empresaries",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_neut"
+      "sentence": "Sekretæren afventede dokumenterne fra partnerselskabet, som var",
+      "math": "56 / 2 =",
+      "answer": 28,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el alumnado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>78 - ( 9 + 6 ) × 2 =<\/p>",
     "data": {
-      "word": "el alumnado",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_col"
+      "sentence": "Pigen glædede sig til udflugterne i ferien, som var",
+      "math": "78 - ( 9 + 6 ) × 2 =",
+      "answer": 48,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el alumnado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>78 - 9 + 6 × 2 =<\/p>",
     "data": {
-      "word": "el alumnado",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_col"
+      "sentence": "Pigen glædede sig til udflugterne i ferien, som var",
+      "math": "78 - 9 + 6 × 2 =",
+      "answer": 81,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el alumnado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>78 - 15 =<\/p>",
     "data": {
-      "word": "el alumnado",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_col"
+      "sentence": "Pigen glædede sig til udflugterne i ferien, som var",
+      "math": "78 - 15 =",
+      "answer": 63,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el estudiantado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>4 + ( 22 - 4 ) / 2 =<\/p>",
     "data": {
-      "word": "el estudiantado",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_col"
+      "sentence": "Forfatteren forkastede afsnittene om togrejsen, som var",
+      "math": "4 + ( 22 - 4 ) / 2 =",
+      "answer": 13,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el estudiantado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>4 + 22 - 4 / 2 =<\/p>",
     "data": {
-      "word": "el estudiantado",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_col"
+      "sentence": "Forfatteren forkastede afsnittene om togrejsen, som var",
+      "math": "4 + 22 - 4 / 2 =",
+      "answer": 24,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el estudiantado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>3 × 14 =<\/p>",
     "data": {
-      "word": "el estudiantado",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_col"
+      "sentence": "Forfatteren forkastede afsnittene om togrejsen, som var",
+      "math": "3 × 14 =",
+      "answer": 42,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el vecindario<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>45 - ( 10 + 5 ) × 3 =<\/p>",
     "data": {
-      "word": "el vecindario",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_col"
+      "sentence": "Danseren øvede trinene til forestillingen, som var",
+      "math": "45 - ( 10 + 5 ) × 3 =",
+      "answer": 0,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el vecindario<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>45 - 10 + 5 × 3 =<\/p>",
     "data": {
-      "word": "el vecindario",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_col"
+      "sentence": "Danseren øvede trinene til forestillingen, som var",
+      "math": "45 - 10 + 5 × 3 =",
+      "answer": 50,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el vecindario<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>53 + 4 =<\/p>",
     "data": {
-      "word": "el vecindario",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_col"
+      "sentence": "Danseren øvede trinene til forestillingen, som var",
+      "math": "53 + 4 =",
+      "answer": 57,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>la diputaciÃ³n<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>98 - ( 50 - 30 ) / 10 =<\/p>",
     "data": {
-      "word": "la diputaciÃ³n",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_col"
+      "sentence": "Lærlingen hentede spanden med redskaberne, som var",
+      "math": "98 - ( 50 - 30 ) / 10 =",
+      "answer": 96,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>la diputaciÃ³n<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>98 - 50 - 30 / 10 =<\/p>",
     "data": {
-      "word": "la diputaciÃ³n",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_col"
+      "sentence": "Lærlingen hentede spanden med redskaberne, som var",
+      "math": "98 - 50 - 30 / 10 =",
+      "answer": 45,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>la diputaciÃ³n<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>98 - 50 =<\/p>",
     "data": {
-      "word": "la diputaciÃ³n",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_col"
+      "sentence": "Lærlingen hentede spanden med redskaberne, som var",
+      "math": "98 - 50 =",
+      "answer": 48,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>la clientela<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>70 - ( 25 + 5 ) / 5 =<\/p>",
     "data": {
-      "word": "la clientela",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_col"
+      "sentence": "Læreren spurgte ind til fortolkningen af digtene, som var",
+      "math": "70 - ( 25 + 5 ) / 5 =",
+      "answer": 64,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>la clientela<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>70 - 25 + 5 / 5 =<\/p>",
     "data": {
-      "word": "la clientela",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_col"
+      "sentence": "Læreren spurgte ind til fortolkningen af digtene, som var",
+      "math": "70 - 25 + 5 / 5 =",
+      "answer": 46,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>la clientela<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>44 / 11 =<\/p>",
     "data": {
-      "word": "la clientela",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_col"
+      "sentence": "Læreren spurgte ind til fortolkningen af digtene, som var",
+      "math": "44 / 11 =",
+      "answer": 4,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el profesorado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>12 + ( 26 - 1 ) × 4 =<\/p>",
     "data": {
-      "word": "el profesorado",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_col"
+      "sentence": "Dronningen deltog ved fejringerne af landsholdet, som var",
+      "math": "12 + ( 26 - 1 ) × 4 =",
+      "answer": 112,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el profesorado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>12 + 26 - 1 × 4 =<\/p>",
     "data": {
-      "word": "el profesorado",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_col"
+      "sentence": "Dronningen deltog ved fejringerne af landsholdet, som var",
+      "math": "12 + 26 - 1 × 4 =",
+      "answer": 34,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el profesorado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>12 + 8 =<\/p>",
     "data": {
-      "word": "el profesorado",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_col"
+      "sentence": "Dronningen deltog ved fejringerne af landsholdet, som var",
+      "math": "12 + 8 =",
+      "answer": 20,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>la abogacÃ­a<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>29 - ( 3 + 11 ) × 2 =<\/p>",
     "data": {
-      "word": "la abogacÃ­a",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_col"
+      "sentence": "Biologen studerede vingerne på fluen, som var",
+      "math": "29 - ( 3 + 11 ) × 2 =",
+      "answer": 1,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>la abogacÃ­a<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>29 - 3 + 11 × 2 =<\/p>",
     "data": {
-      "word": "la abogacÃ­a",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_col"
+      "sentence": "Biologen studerede vingerne på fluen, som var",
+      "math": "29 - 3 + 11 × 2 =",
+      "answer": 48,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>la abogacÃ­a<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>29 + 6 =<\/p>",
     "data": {
-      "word": "la abogacÃ­a",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_col"
+      "sentence": "Biologen studerede vingerne på fluen, som var",
+      "math": "29 + 6 =",
+      "answer": 35,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el ministerio<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>4 + ( 9 + 6 ) / 3 =<\/p>",
     "data": {
-      "word": "el ministerio",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_col"
+      "sentence": "Spekulanten solgte aktierne i firmaet, som var",
+      "math": "4 + ( 9 + 6 ) / 3 =",
+      "answer": 9,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el ministerio<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>4 + 9 + 6 / 3 =<\/p>",
     "data": {
-      "word": "el ministerio",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_col"
+      "sentence": "Spekulanten solgte aktierne i firmaet, som var",
+      "math": "4 + 9 + 6 / 3 =",
+      "answer": 15,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el ministerio<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>15 × 4 =<\/p>",
     "data": {
-      "word": "el ministerio",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_col"
+      "sentence": "Spekulanten solgte aktierne i firmaet, som var",
+      "math": "15 × 4 =",
+      "answer": 60,
+      "condition": "BL"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el empresariado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>36 - ( 16 + 8 ) / 4 =<\/p>",
     "data": {
-      "word": "el empresariado",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "gender_col"
+      "sentence": "Drengen tænkte på festerne med klassen, som var",
+      "math": "36 - ( 16 + 8 ) / 4 =",
+      "answer": 30,
+      "condition": "HA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el empresariado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>36 - 16 + 8 / 4 =<\/p>",
     "data": {
-      "word": "el empresariado",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "gender_col"
+      "sentence": "Drengen tænkte på festerne med klassen, som var",
+      "math": "36 - 16 + 8 / 4 =",
+      "answer": 22,
+      "condition": "LA"
     }
   },
   {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el empresariado<\/p>",
+    "stimulus": "<p id = 'my_stim' style = 'font-size: 60pt; line-height: normal;'>36 - 12 =<\/p>",
     "data": {
-      "word": "el empresariado",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "gender_col"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los mosquitos<\/p>",
-    "data": {
-      "word": "los mosquitos",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los mosquitos<\/p>",
-    "data": {
-      "word": "los mosquitos",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los mosquitos<\/p>",
-    "data": {
-      "word": "los mosquitos",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los vasos<\/p>",
-    "data": {
-      "word": "los vasos",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los vasos<\/p>",
-    "data": {
-      "word": "los vasos",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los vasos<\/p>",
-    "data": {
-      "word": "los vasos",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los lobos<\/p>",
-    "data": {
-      "word": "los lobos",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los lobos<\/p>",
-    "data": {
-      "word": "los lobos",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los lobos<\/p>",
-    "data": {
-      "word": "los lobos",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los perros<\/p>",
-    "data": {
-      "word": "los perros",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los perros<\/p>",
-    "data": {
-      "word": "los perros",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los perros<\/p>",
-    "data": {
-      "word": "los perros",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los dientes<\/p>",
-    "data": {
-      "word": "los dientes",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los dientes<\/p>",
-    "data": {
-      "word": "los dientes",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los dientes<\/p>",
-    "data": {
-      "word": "los dientes",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los pinos<\/p>",
-    "data": {
-      "word": "los pinos",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los pinos<\/p>",
-    "data": {
-      "word": "los pinos",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los pinos<\/p>",
-    "data": {
-      "word": "los pinos",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>las islas<\/p>",
-    "data": {
-      "word": "las islas",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>las islas<\/p>",
-    "data": {
-      "word": "las islas",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>las islas<\/p>",
-    "data": {
-      "word": "las islas",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>las pastillas<\/p>",
-    "data": {
-      "word": "las pastillas",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>las pastillas<\/p>",
-    "data": {
-      "word": "las pastillas",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>las pastillas<\/p>",
-    "data": {
-      "word": "las pastillas",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los pÃ¡jaros<\/p>",
-    "data": {
-      "word": "los pÃ¡jaros",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los pÃ¡jaros<\/p>",
-    "data": {
-      "word": "los pÃ¡jaros",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los pÃ¡jaros<\/p>",
-    "data": {
-      "word": "los pÃ¡jaros",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_lemma"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los mosquitones<\/p>",
-    "data": {
-      "word": "los mosquitones",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los mosquitones<\/p>",
-    "data": {
-      "word": "los mosquitones",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los mosquitones<\/p>",
-    "data": {
-      "word": "los mosquitones",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los vasones<\/p>",
-    "data": {
-      "word": "los vasones",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los vasones<\/p>",
-    "data": {
-      "word": "los vasones",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los vasones<\/p>",
-    "data": {
-      "word": "los vasones",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los lobillos<\/p>",
-    "data": {
-      "word": "los lobillos",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los lobillos<\/p>",
-    "data": {
-      "word": "los lobillos",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los lobillos<\/p>",
-    "data": {
-      "word": "los lobillos",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los perrones<\/p>",
-    "data": {
-      "word": "los perrones",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los perrones<\/p>",
-    "data": {
-      "word": "los perrones",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los perrones<\/p>",
-    "data": {
-      "word": "los perrones",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los dientillos<\/p>",
-    "data": {
-      "word": "los dientillos",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los dientillos<\/p>",
-    "data": {
-      "word": "los dientillos",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los dientillos<\/p>",
-    "data": {
-      "word": "los dientillos",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los pinillos<\/p>",
-    "data": {
-      "word": "los pinillos",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los pinillos<\/p>",
-    "data": {
-      "word": "los pinillos",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los pinillos<\/p>",
-    "data": {
-      "word": "los pinillos",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>las islonas<\/p>",
-    "data": {
-      "word": "las islonas",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>las islonas<\/p>",
-    "data": {
-      "word": "las islonas",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>las islonas<\/p>",
-    "data": {
-      "word": "las islonas",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>las pastillonas<\/p>",
-    "data": {
-      "word": "las pastillonas",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>las pastillonas<\/p>",
-    "data": {
-      "word": "las pastillonas",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>las pastillonas<\/p>",
-    "data": {
-      "word": "las pastillonas",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>los pajarrones<\/p>",
-    "data": {
-      "word": "los pajarrones",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>los pajarrones<\/p>",
-    "data": {
-      "word": "los pajarrones",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>los pajarrones<\/p>",
-    "data": {
-      "word": "los pajarrones",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_der"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>la mosquitera<\/p>",
-    "data": {
-      "word": "la mosquitera",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>la mosquitera<\/p>",
-    "data": {
-      "word": "la mosquitera",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>la mosquitera<\/p>",
-    "data": {
-      "word": "la mosquitera",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>la vasija<\/p>",
-    "data": {
-      "word": "la vasija",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>la vasija<\/p>",
-    "data": {
-      "word": "la vasija",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>la vasija<\/p>",
-    "data": {
-      "word": "la vasija",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el lobezno<\/p>",
-    "data": {
-      "word": "el lobezno",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el lobezno<\/p>",
-    "data": {
-      "word": "el lobezno",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el lobezno<\/p>",
-    "data": {
-      "word": "el lobezno",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>la perrada<\/p>",
-    "data": {
-      "word": "la perrada",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>la perrada<\/p>",
-    "data": {
-      "word": "la perrada",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>la perrada<\/p>",
-    "data": {
-      "word": "la perrada",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>la dentadura<\/p>",
-    "data": {
-      "word": "la dentadura",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>la dentadura<\/p>",
-    "data": {
-      "word": "la dentadura",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>la dentadura<\/p>",
-    "data": {
-      "word": "la dentadura",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el pinar<\/p>",
-    "data": {
-      "word": "el pinar",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el pinar<\/p>",
-    "data": {
-      "word": "el pinar",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el pinar<\/p>",
-    "data": {
-      "word": "el pinar",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el islote<\/p>",
-    "data": {
-      "word": "el islote",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el islote<\/p>",
-    "data": {
-      "word": "el islote",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el islote<\/p>",
-    "data": {
-      "word": "el islote",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>el pastillero<\/p>",
-    "data": {
-      "word": "el pastillero",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>el pastillero<\/p>",
-    "data": {
-      "word": "el pastillero",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>el pastillero<\/p>",
-    "data": {
-      "word": "el pastillero",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: red; font-size: 60pt; line-height: normal;'>la pajarita<\/p>",
-    "data": {
-      "word": "la pajarita",
-      "color": "red",
-      "response": "uparrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: green; font-size: 60pt; line-height: normal;'>la pajarita<\/p>",
-    "data": {
-      "word": "la pajarita",
-      "color": "green",
-      "response": "leftarrow",
-      "stim_type": "control_sing"
-    }
-  },
-  {
-    "stimulus": "<p id = 'stroop_stim' style = 'color: blue; font-size: 60pt; line-height: normal;'>la pajarita<\/p>",
-    "data": {
-      "word": "la pajarita",
-      "color": "blue",
-      "response": "rightarrow",
-      "stim_type": "control_sing"
+      "sentence": "Drengen tænkte på festerne med klassen, som var",
+      "math": "36 - 12 =",
+      "answer": 24,
+      "condition": "BL"
     }
   }
 ]
