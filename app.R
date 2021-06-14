@@ -46,21 +46,23 @@ math_stim$stimulus <- html_stimulus(df = math_stim,
                                       html_content = "math",
                                       html_element = "p",
                                       column_names = c("fontsize","lineheight"),
-                                      css = c("font-size", "line-height"))
+                                      css = c("font-size", "line-height"),
+                                    id = "math")
 
 math_stim$sent_stim <- html_stimulus(df = math_stim, 
                                     html_content = "sentence",
                                     html_element = "p",
                                     column_names = c("fontsize","lineheight"),
-                                    css = c("font-size", "line-height"))
+                                    css = c("font-size", "line-height"),
+                                    id = "sentence")
 
 # create json object from dataframe
-stimulus_json <- stimulus_df_to_json(df = math_stim,
+math_stim_json <- stimulus_df_to_json(df = math_stim,
                                      stimulus = "stimulus",
-                                     data = c("sentence","math","answer","condition"))
+                                     data = c("sent_stim","math","answer","condition"))
 
 # write json object to script
-write_to_file(stimulus_json, file.path(base_dir, "test_stimuli.js"), "test_stimuli")
+write_to_file(math_stim_json, file.path(base_dir, "test_stimuli.js"), "test_stimuli")
 
 ###############################
 ##### jsPsych starts here #####
@@ -113,28 +115,28 @@ head <- tags$head(
 #########
 
 ##Instructions
-ui_instr <- tags$div(
-  head,
-  includeScript(file.path(base_dir, "instr-timeline.js")),
-  includeScript(file.path(base_dir, "run-jspsych.js")),
-  tags$div(id = "js_psych", style = "min-height: 90vh")
-)
-
-instr <- page(
-  ui = ui_instr,
-  label = "instr",
-  get_answer = function(input, ...)
-    input$jspsych_results,
-  validate = function(answer, ...)
-    nchar(answer) > 0L,
-  save_answer = TRUE
-)
+# ui_instr <- tags$div(
+#   head,
+#   includeScript(file.path(base_dir, "instr-timeline.js")),
+#   includeScript(file.path(base_dir, "run-jspsych.js")),
+#   tags$div(id = "js_psych", style = "min-height: 90vh")
+# )
+# 
+# instr <- page(
+#   ui = ui_instr,
+#   label = "instr",
+#   get_answer = function(input, ...)
+#     input$jspsych_results,
+#   validate = function(answer, ...)
+#     nchar(answer) > 0L,
+#   save_answer = TRUE
+# )
 
 ##Test
 ui_test <- tags$div(
   head,
-  # includeScript(file.path(base_dir, "test_text.js")),
-  includeScript(file.path(base_dir, "test-00-timeline.js")),
+  includeScript(file.path(base_dir, "test_stimuli.js")),
+  includeScript(file.path(base_dir, "test-01-timeline.js")),
   includeScript(file.path(base_dir, "run-jspsych.js")),
   tags$div(id = "js_psych", style = "min-height: 90vh")
 )
@@ -153,59 +155,66 @@ test <- page(
 #survey <- (
 
 ##Age, native language and residence
-ui_demographics <- tags$div(
-  head,
-  includeScript(file.path(base_dir, "demographics-timeline.js")),
-  includeScript(file.path(base_dir, "run-jspsych.js")),
-  tags$div(id = "js_psych", style = "min-height: 90vh")
-)
-
-demographics <- page(
-  ui = ui_demographics,
-  label = 'demographics',
-  get_answer = function(input, ...)
-    input$jspsych_results,
-  validate = function(answer, ...)
-    nchar(answer) > 0L,
-  save_answer = TRUE
-)
-
-##Gender
-ui_gender <- tags$div(
-  head,
-  includeScript(file.path(base_dir, "gender-timeline.js")),
-  includeScript(file.path(base_dir, "run-jspsych.js")),
-  tags$div(id = "js_psych", style = "min-height: 90vh")
-)
-
-gender <- page(
-  ui = ui_gender,
-  label = 'gender',
-  get_answer = function(input, ...)
-    input$jspsych_results,
-  validate = function(answer, ...)
-    nchar(answer) > 0L,
-  save_answer = TRUE
-)
+# ui_demographics <- tags$div(
+#   head,
+#   includeScript(file.path(base_dir, "demographics-timeline.js")),
+#   includeScript(file.path(base_dir, "run-jspsych.js")),
+#   tags$div(id = "js_psych", style = "min-height: 90vh")
+# )
+# 
+# demographics <- page(
+#   ui = ui_demographics,
+#   label = 'demographics',
+#   get_answer = function(input, ...)
+#     input$jspsych_results,
+#   validate = function(answer, ...)
+#     nchar(answer) > 0L,
+#   save_answer = TRUE
+# )
+# 
+# ##Gender
+# ui_gender <- tags$div(
+#   head,
+#   includeScript(file.path(base_dir, "gender-timeline.js")),
+#   includeScript(file.path(base_dir, "run-jspsych.js")),
+#   tags$div(id = "js_psych", style = "min-height: 90vh")
+# )
+# 
+# gender <- page(
+#   ui = ui_gender,
+#   label = 'gender',
+#   get_answer = function(input, ...)
+#     input$jspsych_results,
+#   validate = function(answer, ...)
+#     nchar(answer) > 0L,
+#   save_answer = TRUE
+# )
 
 ##Final
-ui_final <- tags$div(
-  head,
-  includeScript(file.path(base_dir, "final-timeline.js")),
-  includeScript(file.path(base_dir, "run-jspsych.js")),
-  tags$div(id = "js_psych", style = "min-height: 90vh")
-)
+# ui_final <- tags$div(
+#   head,
+#   includeScript(file.path(base_dir, "final-timeline.js")),
+#   includeScript(file.path(base_dir, "run-jspsych.js")),
+#   tags$div(id = "js_psych", style = "min-height: 90vh")
+# )
+# 
+# final <- page(
+#   ui = ui_final,
+#   label = "final",
+#   get_answer = function(input, ...)
+#     input$jspsych_results,
+#   validate = function(answer, ...)
+#     nchar(answer) > 0L,
+#   save_answer = TRUE,
+#   final = TRUE
+# )
 
-final <- page(
-  ui = ui_final,
-  label = "final",
-  get_answer = function(input, ...)
-    input$jspsych_results,
-  validate = function(answer, ...)
-    nchar(answer) > 0L,
-  save_answer = TRUE,
-  final = TRUE
-)
+final <- final_page(tags$div(
+  # tags$p("Tusind tak fordi du ville være med!"),
+  # tags$p("Du kan lukke din browser nu.")
+  tags$p("Thx for participating!"),
+  tags$p("You may now close your browser.")
+))
 
 ##elts
 elts <- join(
