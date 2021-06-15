@@ -16,9 +16,9 @@ library(dplyr)
 library(tidyverse)
 library(readxl)
 
-# base_dir <- "/srv/shiny-server/experimento-TFM"
+base_dir <- "/srv/shiny-server/arithmetics"
 # base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/"
-base_dir <- "/Users/au183362/Documents/postdoc/NeDComm/interns/Solvej_Wilbrandt_Kjær/arithmetics/"
+# base_dir <- "/Users/au183362/Documents/postdoc/NeDComm/interns/Solvej_Wilbrandt_Kjær/arithmetics/"
 jspsych_dir <- file.path(base_dir, "jspsych-6-3-1")
 
 write_to_file <- function(json_object,file_name,var_name=NULL){
@@ -37,7 +37,11 @@ long_stimuli <- stimuli %>%
     names_pattern = '(.+)_(.+)'
   )
 
-math_stim <- data.frame(long_stimuli,
+DT <- setDT(long_stimuli)
+temp_idx <- DT[,list(idx=sample(.I,1)),by="sentence"]$idx
+rand_stimuli <- DT[temp_idx]
+
+math_stim <- data.frame(rand_stimuli,
                         fontsize="32pt",
                         lineheight="normal")
 
