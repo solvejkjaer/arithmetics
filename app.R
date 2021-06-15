@@ -116,22 +116,22 @@ head <- tags$head(
 #########
 
 ##Instructions
-# ui_instr <- tags$div(
-#   head,
-#   includeScript(file.path(base_dir, "instr-timeline.js")),
-#   includeScript(file.path(base_dir, "run-jspsych.js")),
-#   tags$div(id = "js_psych", style = "min-height: 90vh")
-# )
-# 
-# instr <- page(
-#   ui = ui_instr,
-#   label = "instr",
-#   get_answer = function(input, ...)
-#     input$jspsych_results,
-#   validate = function(answer, ...)
-#     nchar(answer) > 0L,
-#   save_answer = TRUE
-# )
+ui_instr <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "instr-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych_full.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+instr <- page(
+  ui = ui_instr,
+  label = "instr",
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
 
 ##Test
 ui_test <- tags$div(
@@ -219,11 +219,11 @@ final <- final_page(tags$div(
 
 ##elts
 elts <- join(
-    test,
-    # elt_save_results_to_disk(complete = FALSE), # anything that is saved here counts as completed
-    # instr,
-    elt_save_results_to_disk(complete = TRUE),
-    final
+  instr,
+  test,
+  # elt_save_results_to_disk(complete = FALSE), # anything that is saved here counts as completed
+  elt_save_results_to_disk(complete = TRUE),
+  final
 )
 
 ##exp
