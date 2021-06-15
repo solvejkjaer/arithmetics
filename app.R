@@ -15,6 +15,7 @@ library(jspsychr)
 library(dplyr)
 library(tidyverse)
 library(readxl)
+library(data.table)
 
 base_dir <- "/srv/shiny-server/arithmetics"
 # base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/"
