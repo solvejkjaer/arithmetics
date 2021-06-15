@@ -1,6 +1,6 @@
 function run_jspsych() {
   jsPsych.init({
-    timeline: new_timeline(),
+    timeline: timeline,
     display_element: 'js_psych',
     on_finish: function() {
       var json_data = jsPsych.data.get().json();

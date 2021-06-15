@@ -17,7 +17,8 @@ library(tidyverse)
 library(readxl)
 
 # base_dir <- "/srv/shiny-server/experimento-TFM"
-base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/"
+# base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/"
+base_dir <- "/Users/au183362/Documents/postdoc/NeDComm/interns/Solvej_Wilbrandt_Kjær/arithmetics/"
 jspsych_dir <- file.path(base_dir, "jspsych-6-3-1")
 
 write_to_file <- function(json_object,file_name,var_name=NULL){
@@ -37,7 +38,7 @@ long_stimuli <- stimuli %>%
   )
 
 math_stim <- data.frame(long_stimuli,
-                        fontsize="60pt",
+                        fontsize="32pt",
                         lineheight="normal")
 
 # write html definitions to the stimulus column
@@ -58,8 +59,8 @@ math_stim$sent_stim <- html_stimulus(df = math_stim,
 
 # create json object from dataframe
 math_stim_json <- stimulus_df_to_json(df = math_stim,
-                                     stimulus = "stimulus",
-                                     data = c("sent_stim","math","answer","condition"))
+                                     stimulus = c("stimulus","sent_stim"),
+                                     data = c("math","answer","condition"))
 
 # write json object to script
 write_to_file(math_stim_json, file.path(base_dir, "test_stimuli.js"), "test_stimuli")

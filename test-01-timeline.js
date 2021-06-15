@@ -4,9 +4,15 @@ var arithmetics = {
     timeline: [{
         type: 'survey-text',
         data: jsPsych.timelineVariable('data'),
-        stimulus: jsPsych.timelineVariable('stimulus'),
         questions: [
-            {prompt: stimulus, columns: 500}
+            {prompt: function(){
+                var stimuli = jsPsych.timelineVariable('stimulus')
+                stim = stimuli.map(item => item.stimulus)
+                return stim;
+              },
+              required: true,
+              columns: 10
+            }
         ],
         button_label: "Fortsæt",
         on_finish: function(data){
@@ -26,13 +32,14 @@ var sentence = {
     timeline: [{
         type: 'survey-text',
         data: jsPsych.timelineVariable('data'),
-        stimulus: function(){
-            var stimuli = jsPsych.timelineVariable('data')
-            stim = stimuli.map(item => item.sent_stim)
-            return stim;
-          },
         questions: [
-            {prompt: stimulus, columns: 500}
+            {prompt: function(){
+                var stimuli = jsPsych.timelineVariable('stimulus')
+                stim = stimuli.map(item => item.sent_stim)
+                return stim;
+              },
+              required: true,
+              columns: 100}
         ],
         button_label: "Fortsæt",
     }]
@@ -44,6 +51,7 @@ var sentence = {
 var test_procedure = {
     timeline: [arithmetics,sentence],
     timeline_variables: test_stimuli,
+    randomize_order: true,
 };
 
 timeline.push(test_procedure)
