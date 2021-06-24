@@ -31,7 +31,11 @@ write_to_file <- function(json_object,file_name,var_name=NULL){
 }
 
 stimuli<-read_excel(file.path(base_dir,"materiale.xlsx"))
-long_stimuli <- stimuli %>% 
+# randomize pairing between sentences and math before creating long_stimuli
+rand_stimuli <- stimuli
+rand_stimuli$sentence <- stimuli$sentence[sample(1:nrow(stimuli))]
+
+long_stimuli <- rand_stimuli %>% 
   pivot_longer(
     cols = -c(item,sentence),
     names_to = c(".value","condition"),
@@ -138,6 +142,24 @@ instr <- page(
   save_answer = TRUE
 )
 
+##Math instructions
+ui_math_instr <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "math_instr.js")),
+  includeScript(file.path(base_dir, "run-jspsych_full.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+math_instr <- page(
+  ui = ui_math_instr,
+  label = "math_instr",
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
 ##Test
 ui_test <- tags$div(
   head,
@@ -225,6 +247,7 @@ final <- final_page(tags$div(
 ##elts
 elts <- join(
   instr,
+  math_instr,
   test,
   # elt_save_results_to_disk(complete = FALSE), # anything that is saved here counts as completed
   elt_save_results_to_disk(complete = TRUE),
