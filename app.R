@@ -1,6 +1,6 @@
 # # ####################################################
 # # # This script makes a psychTestR implementation of
-# # # arithmetics
+# # # arithmetic project
 # # # Date:2021
 # # # Author: Solvej
 # # # Project group: X
@@ -17,9 +17,12 @@ library(tidyverse)
 library(readxl)
 library(data.table)
 
-base_dir <- "/srv/shiny-server/arithmetics"
-# base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/"
-# base_dir <- "/Users/au183362/Documents/postdoc/NeDComm/interns/Solvej_Wilbrandt_Kjær/arithmetics/"
+base_dir <- "/srv/shiny-server/arithmetics" #Server
+# base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/" #Local
+
+stimuli<-read_excel(file.path(base_dir,"materiale.xlsx")) #Server
+# stimuli<-read_excel(file.path(base_dir,"materiale_uden_danske_bogstaver.xlsx")) #Local
+
 jspsych_dir <- file.path(base_dir, "jspsych-6-3-1")
 
 write_to_file <- function(json_object,file_name,var_name=NULL){
@@ -30,7 +33,7 @@ write_to_file <- function(json_object,file_name,var_name=NULL){
   }
 }
 
-stimuli<-read_excel(file.path(base_dir,"materiale.xlsx"))
+
 # randomize pairing between sentences and math before creating long_stimuli
 rand_stimuli <- stimuli
 rand_stimuli$sentence <- stimuli$sentence[sample(1:nrow(stimuli))]
@@ -123,6 +126,24 @@ head <- tags$head(
 )
 
 #########
+
+##Consent form
+ui_consent <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "consent-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych_full.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+consent <- page(
+  ui = ui_consent,
+  label = "consent",
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
 
 ##Instructions
 ui_instr <- tags$div(
@@ -246,6 +267,7 @@ final <- final_page(tags$div(
 
 ##elts
 elts <- join(
+  consent,
   instr,
   math_instr,
   test,

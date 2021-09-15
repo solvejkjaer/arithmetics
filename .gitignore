@@ -1,0 +1,3 @@
+# ignore all files in the pilot folder
+pilot/
+output/
