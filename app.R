@@ -200,79 +200,119 @@ test <- page(
   save_answer = TRUE
 )
 
-##SURVEY
-#survey <- (
+##Age and education
+ui_demographics <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "demographics-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych_full.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
 
-##Age, native language and residence
-# ui_demographics <- tags$div(
-#   head,
-#   includeScript(file.path(base_dir, "demographics-timeline.js")),
-#   includeScript(file.path(base_dir, "run-jspsych.js")),
-#   tags$div(id = "js_psych", style = "min-height: 90vh")
-# )
-# 
-# demographics <- page(
-#   ui = ui_demographics,
-#   label = 'demographics',
-#   get_answer = function(input, ...)
-#     input$jspsych_results,
-#   validate = function(answer, ...)
-#     nchar(answer) > 0L,
-#   save_answer = TRUE
-# )
-# 
-# ##Gender
-# ui_gender <- tags$div(
-#   head,
-#   includeScript(file.path(base_dir, "gender-timeline.js")),
-#   includeScript(file.path(base_dir, "run-jspsych.js")),
-#   tags$div(id = "js_psych", style = "min-height: 90vh")
-# )
-# 
-# gender <- page(
-#   ui = ui_gender,
-#   label = 'gender',
-#   get_answer = function(input, ...)
-#     input$jspsych_results,
-#   validate = function(answer, ...)
-#     nchar(answer) > 0L,
-#   save_answer = TRUE
-# )
+demographics <- page(
+  ui = ui_demographics,
+  label = 'demographics',
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
+##Gender
+ui_gender <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "gender-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych_full.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+gender <- page(
+  ui = ui_gender,
+  label = 'gender',
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
+##Native language
+ui_nativelang <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "native-language-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych_full.js")),
+  # includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+nativelang <- page(
+  ui = ui_nativelang,
+  label = "nativelang",
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
+##Dyslexia
+ui_dyslexia <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "dyslexia-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych_full.js")),
+  # includeScript(file.path(base_dir, "run-jspsych.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+dyslexia <- page(
+  ui = ui_dyslexia,
+  label = "dyslexia",
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
+
+##Email
+ui_email <- tags$div(
+  head,
+  includeScript(file.path(base_dir, "email-timeline.js")),
+  includeScript(file.path(base_dir, "run-jspsych_full.js")),
+  tags$div(id = "js_psych", style = "min-height: 90vh")
+)
+
+email <- page(
+  ui = ui_email,
+  label = 'email',
+  get_answer = function(input, ...)
+    input$jspsych_results,
+  validate = function(answer, ...)
+    nchar(answer) > 0L,
+  save_answer = TRUE
+)
 
 ##Final
-# ui_final <- tags$div(
-#   head,
-#   includeScript(file.path(base_dir, "final-timeline.js")),
-#   includeScript(file.path(base_dir, "run-jspsych.js")),
-#   tags$div(id = "js_psych", style = "min-height: 90vh")
-# )
-# 
-# final <- page(
-#   ui = ui_final,
-#   label = "final",
-#   get_answer = function(input, ...)
-#     input$jspsych_results,
-#   validate = function(answer, ...)
-#     nchar(answer) > 0L,
-#   save_answer = TRUE,
-#   final = TRUE
-# )
-
 final <- final_page(tags$div(
-  # tags$p("Tusind tak fordi du ville være med!"),
-  # tags$p("Du kan lukke din browser nu.")
-  tags$p("Thx for participating!"),
-  tags$p("You may now close your browser.")
+  tags$p("Igen tusind tak for din deltagelse!"),
+  tags$p("Du kan lukke din browser nu.")
+  # tags$p("Thx for participating!"),
+  # tags$p("You may now close your browser.")
 ))
 
 ##elts
 elts <- join(
   consent,
-  instr,
+  gender,
+  demographics,
+  nativelang,
+  dyslexia,
   math_instr,
+  instr,
   test,
   # elt_save_results_to_disk(complete = FALSE), # anything that is saved here counts as completed
   elt_save_results_to_disk(complete = TRUE),
+  email,
   final
 )
 
@@ -282,7 +322,7 @@ exp <- make_test(
   opt = test_options(title="arithmetics test, Aarhus 2021",
                      admin_password="", # write a secret password here
                      enable_admin_panel=TRUE,
-                     researcher_email="jbkj@gmail.com",
+                     researcher_email="solvej.kjaer@gmail.com",
                      display = display_options(
                        full_screen = TRUE,
                        css = file.path(jspsych_dir, "css/jspsych.css")

@@ -4,7 +4,7 @@ function new_timeline() {
     timeline: [{
       type: "html-button-response",
       choices: ['Fortsæt'],
-      stimulus: "<p>I det følgende er der to slags opgaver.</p> <p>Først skal du regne et regnestykke.</p> <p>Dernæst bedes du afslutte sætningen.</p> <p>Du må skrive lige hvad der falder dig ind.</p> <p>Der er 27 sæt af to opgaver.</p> <p>God fornøjelse. </p>",
+      stimulus: "<p>Der vil være to slags opgaver.</p> <p>Du bedes både regne nogle regnestykker og færdiggøre nogle sætninger.</p> <p>I færdiggørelserne må du skrive lige, hvad der falder dig ind.</p> <p>Der er 54 sæt af to opgaver.</p> <p>God fornøjelse! </p>",
       // post_trial_gap: 500
   }],
   sample: {type: 'fixed-repetitions', size: 1}
