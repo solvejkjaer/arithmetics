@@ -17,11 +17,14 @@ library(tidyverse)
 library(readxl)
 library(data.table)
 
-base_dir <- "/srv/shiny-server/arithmetics" #Server
-# base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/" #Local
+# base_dir <- "/srv/shiny-server/arithmetics" #Server
+base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/" #Local
 
-stimuli<-read_excel(file.path(base_dir,"materiale.xlsx")) #Server
-# stimuli<-read_excel(file.path(base_dir,"materiale_uden_danske_bogstaver.xlsx")) #Local
+# stimuli<-read_excel(file.path(base_dir,"materiale.xlsx")) #Server
+stimuli<-read_excel(file.path(base_dir,"materiale_uden_danske_bogstaver.xlsx")) #Local
+
+# fillers<-read_excel(file.path(base_dir,"fillers.xlsx")) #Server
+fillers<-read_excel(file.path(base_dir,"fillers_uden_danske_bogstaver.xlsx")) #Local
 
 jspsych_dir <- file.path(base_dir, "jspsych-6-3-1")
 
