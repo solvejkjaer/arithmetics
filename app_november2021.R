@@ -19,7 +19,6 @@ library(data.table)
 
 # base_dir <- "/srv/shiny-server/arithmetics" #Server
 base_dir <- "/Users/Solvej/OneDrive - Aarhus Universitet/Alting/Lingvistik/Projekter/arithmetics_project/arithmetics/" #Local
-# base_dir <- "/Users/au183362/Documents/postdoc/NeDComm/interns/Solvej_Wilbrandt_Kjær/arithmetics"
 
 # stimuli<-read_excel(file.path(base_dir,"materiale.xlsx")) #Server
 stimuli<-read_excel(file.path(base_dir,"materiale_uden_danske_bogstaver.xlsx")) #Local
@@ -37,7 +36,7 @@ write_to_file <- function(json_object,file_name,var_name=NULL){
   }
 }
 
-### STIMULI
+
 # randomize pairing between sentences and math before creating long_stimuli
 rand_stimuli <- stimuli
 rand_stimuli$sentence <- stimuli$sentence[sample(1:nrow(stimuli))]
@@ -49,34 +48,13 @@ long_stimuli <- rand_stimuli %>%
     names_pattern = '(.+)_(.+)'
   )
 
-DT_stim <- setDT(long_stimuli)
-temp_idx <- DT_stim[,list(idx=sample(.I,1)),by="sentence"]$idx
-rand_stimuli <- DT_stim[temp_idx]
+DT <- setDT(long_stimuli)
+temp_idx <- DT[,list(idx=sample(.I,1)),by="sentence"]$idx
+rand_stimuli <- DT[temp_idx]
 
-### FILLERS
-# randomize pairing between filler sentences and math before creating long_fillers
-rand_fillers <- fillers
-rand_fillers$sentence <- fillers$sentence[sample(1:nrow(fillers))]
-
-long_fillers <- rand_fillers %>% 
-  pivot_longer(
-    cols = -c(item,sentence),
-    names_to = c(".value","condition"),
-    names_pattern = '(.+)_(.+)'
-  )
-
-DT_fill <- setDT(long_fillers)
-temp_idx <- DT_fill[,list(idx=sample(.I,1)),by="sentence"]$idx
-rand_fillers <- DT_fill[temp_idx]
-
-rand_full <- rbind(rand_stimuli, rand_fillers)
-rand_full <- rand_full[sample(nrow(rand_full)),]
-
-math_stim <- data.frame(rand_full,
+math_stim <- data.frame(rand_stimuli,
                         fontsize="32pt",
                         lineheight="normal")
-
-
 
 # write html definitions to the stimulus column
 # note this could be added as a pipe to the above, setting df=.
