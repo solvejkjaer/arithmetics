@@ -1,0 +1,830 @@
+---
+title: "Pilot analysis"
+author: "Solvej"
+date: "20/12/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = "/Users/Solvej/Desktop/results/")
+```
+
+
+```{r}
+library(jsonlite)
+library(psychTestR)
+library(tidyverse)
+library(ggplot2)
+library(glue)
+library(data.table)
+# library(Rcpp)
+library(lme4)
+library(readxl)
+library(tidyr)
+
+```
+
+```{r}
+# c$rt
+# c$key_press
+# which((!c$correct & is.na(c$rt)))
+# which(is.na(c$key_press))
+
+diag_name = "*.rds"
+diag_files = list.files(pattern = diag_name, recursive = TRUE) # get list of all the relevant files
+# diag_data = lapply(diag_files, read.table, header = TRUE, sep = ",") # read in all these files as a list of dataframes
+
+# files <- c('51', '52', '53')
+# files <- c('51', '52', '53', '54', '55')
+# files <- c('54', '55')
+c <-  tibble()
+for (name in diag_files) {
+  a1 <- as.data.frame(readRDS(name))
+  # parsing all the experimental data
+  b1 <- parse_json(a1$results.test)
+  c1 <- rbindlist(lapply(b1, function(x) if(is.null(x)) data.frame(rt = NA, response = NA) else x), fill = TRUE) %>% mutate(ID=substr(name, start=1, stop=nchar(name)-4))
+  # parsing the response to the gender q
+  b2 <- parse_json(a1$results.gender)
+  c2 <- rbindlist(lapply(b2, function(x) if(is.null(x)) data.frame(rt = NA, response = NA) else x), fill = TRUE)
+  # adding gender to the actual data
+  c1$gender <- str_trim(c2$response)
+  # parsing the response to the age and edu qs
+  b3 <- parse_json(a1$results.demographics)
+  c3 <- rbindlist(lapply(b3, function(x) if(is.null(x)) data.frame(rt = NA, response = NA) else x), fill = TRUE)
+  # adding age to the actual data
+  c1$age <- as.numeric(gsub("[^0-9.,-]", "", c3$response[1])) # gsub is for removing if people added "år" to their age
+  # adding edu to the actual data
+  c1$edu <- c3$response[2]
+  # parsing the response to the native langauge q
+  b4 <- parse_json(a1$results.nativelang)
+  c4 <- rbindlist(lapply(b4, function(x) if(is.null(x)) data.frame(rt = NA, response = NA) else x), fill = TRUE)
+  c1$nat <- c4$response
+  # adding it *all* together over multipler runs...
+  c = bind_rows(c, c1)
+  for (row in length(c$response)) {
+    c$response[row]
+  }
+}
+
+# col_id = match(c("rt", "response", "math", "answer", "condition", "trial_type", "trial_index", "time_elapsed", "ID"), colnames(c))
+col_id = match(c("rt", "response", "math", "answer","sentence", "condition", "trial_type", "trial_index", "time_elapsed", "ID", "gender", "age", "edu", "nat"), colnames(c))
+d = c[, col_id]
+
+# unnesting the response-column
+d$response <- unlist(d$response)
+# making an index for every second response starting with the first - corresponding to all the math-responses
+idx <- seq(1,length(d$response),2)
+# creating a column full of NAs cuz for the correct-column we'll only be filling up half of them (namely those with math-responses)
+d$correct <- NA
+# comparing all the math-responses with the corect math-answers
+d$correct[idx] <- d$response[idx]==d$answer[idx]
+d$correct[idx+1] <- d$response[idx]==d$answer[idx]
+# overview of d
+# summary(d)
+
+# taking out the responses based on incorrect math responses
+d_clean <- d[d$correct,]
+# summary(d_clean)
+
+clean_idx <- seq(1,length(d_clean$response),2)
+
+# to see a long list of all the written responses (every second response starting from the second response)
+# d$response[idx+1]
+# d_clean$response[clean_idx+1]
+
+# to see a long list of all the correct/incorrect math-responses
+# d$response[idx]==d$answer[idx]
+# d_clean$response[idx]==d_clean$answer[idx]
+
+
+# ultra-hacky math-randomization check [not to be used generally] - AND specific to the files named 51, 52 and 53
+# temp_math_51 <- d$math[d$ID=="51"][seq(1,sum(d$ID=="51"),2)]
+# temp_math_52 <- d$math[d$ID=="52"][seq(1,sum(d$ID=="52"),2)]
+# temp_math_53 <- d$math[d$ID=="53"][seq(1,sum(d$ID=="53"),2)]
+# temp_math <- data.frame(temp_math_51, temp_math_52, temp_math_53)
+# head(temp_math, 20)
+
+# ultra-hacky sentence-randomization check [not to be used generally] - AND specific to the files named 54 and 55
+# temp_sent_54 <- d$sentence[d$ID=="54"][seq(1,sum(d$ID=="54"),2)+1]
+# temp_sent_55 <- d$sentence[d$ID=="55"][seq(1,sum(d$ID=="55"),2)+1]
+# temp_sent <- data.frame(temp_sent_54, temp_sent_55)
+# head(temp_sent,15)
+```
+
+```{r}
+# number of correct responses, excluding filler math problems
+d_attach_math <- d[(d$condition=="HA"|d$condition=="LA"|d$condition=="BL"),]
+# summary(d_attach_math)
+
+sum(d_attach_math$correct)/length(d_attach_math$correct)*100
+# correct response rate for priming equations is 90.1%
+
+```
+
+```{r, echo=FALSE}
+# generating an excel file for rating the sentence responses
+
+
+# df <- d_clean[clean_idx+1, c('response', 'sentence', 'trial_index', 'ID')]
+# df <- df[,c(4,3,2,1)]
+# # temp hack - has been fixed earlier for future ref
+# df$ID <- substr(df$ID, start=1, stop=nchar(name)-4)
+# 
+# 
+# df$SWK <- NA
+# df$AH <- NA
+# df$empty <- NA
+# 
+# write.csv(df, file="42_resp.csv")
+
+
+```
+
+```{r}
+# adding the ratings to the dataframe
+
+# rating <- read.csv("validation_42.csv", row.names=NULL)
+rating <- read_excel("validation_42.xlsx")
+clean_rating <- rating[,-c(1,7,8,9,10)]
+
+d_clean$rating <- NA
+d_clean$rating[clean_idx+1] <- clean_rating$SWK
+
+# saving a temporary d_clean before removing unclassifiable responses
+temp_d_clean <- d_clean
+
+# removing the unclassifiable responses
+class_idx <- which(d_clean$rating==3)
+# head(class_idx)
+
+d_clean <- d_clean[-c(class_idx,class_idx-1),]
+# summary(d_clean)
+
+# creating two dataframes for the two experiments
+d_attach <- d_clean[(d_clean$condition=="HA"|d_clean$condition=="LA"|d_clean$condition=="BL"),]
+d_valence <- d_clean[(d_clean$condition=="addition"|d_clean$condition=="subtraction"|d_clean$condition=="multiplication"|d_clean$condition=="division"),]
+
+# removing the math rows
+d_attach <- d_attach[-which(is.na(d_attach$rating)),]
+d_valence <- d_valence[-which(is.na(d_valence$rating)),]
+
+# summary(d_attach)
+# summary(d_valence)
+
+# creating a new column in d_valence which contains the condition category
+# (addition/multiplication are positive, while subtraction/division are negative)
+d_valence <- d_valence %>% 
+  mutate(category = if_else(condition == "addition"|condition == "multiplication", "positive", "negative"))
+
+# summary(d_valence)
+# unique(d_valence$category)
+# head(d_valence,20)
+```
+
+```{r}
+# finding the proportion of HA, LA and unclassifiable completions
+
+# making a dataframe with unclassifiable but without fillers
+d_attach_unclassifiable <- temp_d_clean[(temp_d_clean$condition=="HA"|temp_d_clean$condition=="LA"|temp_d_clean$condition=="BL"),]
+# head(d_attach_unclassifiable)
+# summary(d_attach_unclassifiable)
+
+# removing math rows from this dataframe
+d_attach_unclassifiable <- d_attach_unclassifiable[-which(is.na(d_attach_unclassifiable$rating)),]
+# head(d_attach_unclassifiable)
+# summary(d_attach_unclassifiable)
+
+# unclassifiable proportion
+unclassifiable_subset <- d_attach_unclassifiable[(d_attach_unclassifiable$rating==3),]
+length(unclassifiable_subset$rating)/length(d_attach_unclassifiable$rating)*100
+# 11%
+
+# HA proportion
+HA_subset <- d_attach_unclassifiable[(d_attach_unclassifiable$rating==1),]
+length(HA_subset$rating)/length(d_attach_unclassifiable$rating)*100
+# 38%
+
+# LA proportion
+LA_subset <- d_attach_unclassifiable[(d_attach_unclassifiable$rating==2),]
+length(LA_subset$rating)/length(d_attach_unclassifiable$rating)*100
+# 51 %
+
+# distribution of HA and LA, after unclassifiables have been excluded
+
+# # total HA proportion
+# HA_total <- d_attach[(d_attach$rating==1),]
+# length(HA_total$rating)/length(d_attach$rating)*100
+# # 42.8 %
+# 
+# # total LA proportion
+# LA_total <- d_attach[(d_attach$rating==2),]
+# length(LA_total$rating)/length(d_attach$rating)*100
+# # 57.2 %
+# 
+# # HA proportion after HA prime
+# HA_prime <- d_attach[(d_attach$condition=="HA"),]
+# HA_HA_prime <- HA_total[(HA_total$condition=="HA"),]
+# length(HA_HA_prime$rating)/length(HA_prime$rating)*100
+# # 49.6%
+# 
+# # LA proportion after HA prime
+# LA_HA_prime <- LA_total[(LA_total$condition=="HA"),]
+# length(LA_HA_prime$rating)/length(HA_prime$rating)*100
+# # 50.4%
+# 
+# # HA proportion after LA prime
+# LA_prime <- d_attach[(d_attach$condition=="LA"),]
+# HA_LA_prime <- HA_total[(HA_total$condition=="LA"),]
+# length(HA_LA_prime$rating)/length(LA_prime$rating)*100
+# # 39.7%
+# 
+# # LA proportion after LA prime
+# LA_LA_prime <- LA_total[(LA_total$condition=="LA"),]
+# length(LA_LA_prime$rating)/length(LA_prime$rating)*100
+# # 60.3%
+# 
+# # HA proportion after baseline condition
+# BL_condition <- d_attach[(d_attach$condition=="BL"),]
+# HA_BL_condition <- HA_total[(HA_total$condition=="BL"),]
+# length(HA_BL_condition$rating)/length(BL_condition$rating)*100
+# # 40.5%
+# 
+# # LA proportion after baseline condition
+# LA_BL_condition <- LA_total[(LA_total$condition=="BL"),]
+# length(LA_BL_condition$rating)/length(BL_condition$rating)*100
+# # 59.5%
+
+# Disse tal skal ikke bruges alligevel, fordi det er bedre hvis %-tal kan afspejle gennemsnittet af deltagerne - og ikke de absolutte tal
+
+```
+
+
+```{r}
+### plots
+
+# converting ratings to 0 and 1, rather than 1 and 2
+# d_attach$rating <- d_attach$rating-1
+# d_valence$rating <- d_valence$rating-1
+
+# changing the order of HA, BL and LA
+d_attach$condition <- factor(d_attach$condition,c('HA','BL','LA'))
+# summary(d_attach)
+
+## plotting target completions (HA/LA)
+
+# getting one mean value pr ID pr condition
+d_attach_sum <- d_attach %>% 
+  group_by(ID,condition) %>% 
+  summarise(mean=mean(rating))
+
+# creating a boxplot
+d_attach %>% 
+  group_by(ID,condition) %>% 
+  summarise(mean=mean(rating)) %>% 
+  ggplot(aes(x = condition, y = mean)) +
+  geom_boxplot()
+
+# creating a line plot
+d_attach %>% 
+  group_by(ID,condition) %>% 
+  summarise(mean=mean(rating)) %>% 
+  ggplot(aes(x = condition, y = mean, group = ID, color = ID)) +
+  geom_line()
+
+# creating a scatterplot
+d_attach_sum %>% 
+  ggplot(aes(x = mean, y = ID)) +
+  geom_point()
+
+
+## plotting filler completions (positive/negative)
+
+# getting one mean value pr ID pr condition
+d_valence_sum <- d_valence %>% 
+  group_by(ID,category) %>% 
+  summarise(mean=mean(rating))
+
+# creating a boxplot
+d_valence %>% 
+  group_by(ID,category) %>% 
+  summarise(mean=mean(rating)) %>% 
+  ggplot(aes(x = category, y = mean)) +
+  geom_boxplot()
+
+# creating a line plot
+d_valence %>% 
+  group_by(ID,category) %>% 
+  summarise(mean=mean(rating)) %>% 
+  ggplot(aes(x = category, y = mean, group = ID, color = ID)) +
+  geom_line()
+
+
+```
+
+```{r}
+# demographics
+# age
+d_age <- d_clean %>%
+  group_by(ID) %>%
+  summarise(mean_age = mean(age))
+mean(d_age$mean_age)
+# 37.5 is the mean age
+
+# gender
+d_gender <- d_clean %>%
+  group_by(ID) %>%
+  summarise(gender = first(gender))
+sum(d_gender$gender=="Kvinde")
+# [1] 22
+sum(d_gender$gender=="Mand")
+#[1] 19
+sum(d_gender$gender=="Ingen af delene")
+#[1] 1
+
+# educations
+d_edu <- d_clean %>%
+  group_by(ID) %>%
+  summarise(edu = first(edu))
+# just gives you the (many) different educations given in response
+unique(d_edu$edu)
+
+# all native speakers?
+unique(d_clean$nat)
+# it seems so
+
+```
+
+```{r}
+# t test
+d_attach_sum$condition <- factor(d_attach_sum$condition,c('HA','BL','LA'))
+summary(d_attach_sum)
+# nu har vi én værdi pr condition pr ID
+# og nu laver vi separate kolonner for hver condition (så vi kan trække dem fra hinanden)
+d_attach_wide <- d_attach_sum %>% 
+  pivot_wider(
+    # id_cols = ('ID', 'mean),
+    names_from = 'condition',
+    values_from = 'mean'
+  )
+
+# nu trækker vi LA fra HA osv
+d_attach_wide$HA_LA <- d_attach_wide$HA - d_attach_wide$LA
+d_attach_wide$HA_BL <- d_attach_wide$HA - d_attach_wide$BL
+d_attach_wide$LA_BL <- d_attach_wide$LA - d_attach_wide$BL
+
+# på de tre difference-mål kan vi køre tre one-sample t-tests...
+t.test(d_attach_wide$HA_LA, mu=0)
+t.test(d_attach_wide$HA_BL, mu=0)
+t.test(d_attach_wide$LA_BL, mu=0)
+
+```
+
+```{r}
+# t test - making a boxplot
+d_attach_contrasts <- d_attach_wide[,c("HA_LA", "HA_BL", "LA_BL","ID")]
+
+d_attach_long <- d_attach_contrasts %>% 
+  pivot_longer(
+    cols = contains("_"),
+    names_to = "contrasts",
+    values_to = "rating"
+      )
+
+d_attach_long %>% 
+  ggplot(aes(x = contrasts, y = rating)) +
+  geom_boxplot()
+```
+
+```{r}
+# proportion of LA completions - based on the participant means
+# and standard deviations
+
+# LA percentage after HA prime
+LA1 <- mean(d_attach_wide$HA,na.rm=TRUE)*100
+# 50.2%
+sd(d_attach_wide$HA,na.rm=TRUE)*100
+# 28.6%
+
+# LA percentage after LA prime
+LA2 <- mean(d_attach_wide$LA,na.rm=TRUE)*100
+# 61.0%
+sd(d_attach_wide$LA,na.rm=TRUE)*100
+# 31.7%
+
+# LA percentage after BL prime
+LA3 <- mean(d_attach_wide$BL,na.rm=TRUE)*100
+# 59.6%
+sd(d_attach_wide$BL,na.rm=TRUE)*100
+# 25.5%
+
+# total LA percentage
+mean(d_attach_sum$mean)*100
+# 57.0%
+sd(d_attach_sum$mean)*100
+# 28.9%
+
+
+
+```
+```{r}
+# getting data ready for glmer
+# setting ratings of 1 and 2 to 0 and 1
+# using if-statements to make sure we don't do this twice
+if (mean(d_attach$rating)>1) {
+  d_attach$rating <- d_attach$rating-1
+}
+if (mean(d_valence$rating)>1) {
+  d_valence$rating <- d_valence$rating-1
+}
+
+d_attach_sum <- d_attach %>% 
+  group_by(ID, condition) %>% 
+  summarize(sum = sum(rating), avg = mean(rating), n = n())
+
+d_valence_sum <- d_valence %>% 
+  group_by(ID, category) %>% 
+  summarize(sum = sum(rating), avg = mean(rating), n = n())
+```
+
+
+```{r}
+# filler analysis
+
+########## Null model ##########
+Null = glmer(cbind(sum, n) ~ 1 + (1|ID), data = d_valence_sum, family="binomial")
+# summary(Null)
+
+########## MAIN EFFECTS #############
+# category
+M1 = glmer(cbind(sum, n) ~ category + (1|ID), data = d_valence_sum, family="binomial")
+# summary(M1)
+
+anova(Null, M1)
+
+plot(M1)
+
+qqnorm(d_valence_sum$avg)
+qqnorm(log(d_valence_sum$avg))
+
+summary(M1)
+
+```
+
+
+```{r, echo=FALSE}
+########## Null model ##########
+null = glmer(cbind(sum, n) ~ 1 + (1|ID), data = d_attach_sum, family="binomial")
+# summary(Null)
+
+########## MAIN EFFECTS #############
+# condition
+m1 = glmer(cbind(sum, n) ~ condition + (1|ID), data = d_attach_sum, family="binomial")
+# summary(M1)
+
+########## Model Comparison ##########
+anova(null, m1)
+
+plot(m1)
+
+qqnorm(d_attach_sum$avg)
+# qqnorm(log(d_attach_sum$avg))
+
+summary(m1)
+
+```
+
+```{r, echo=FALSE}
+########## Null model ##########
+nulla = lmer(avg ~ 1 + (1|ID), data = d_attach_sum)
+# summary(Null)
+
+########## MAIN EFFECTS #############
+# condition
+m1a= lmer(avg ~ condition + (1|ID), data = d_attach_sum)
+# summary(M1)
+
+########## Model Comparison ##########
+anova(nulla, m1a)
+
+plot(m1a)
+
+qqnorm(d_attach_sum$avg)
+# qqnorm(log(d_attach_sum$avg))
+
+# summary(m1a)
+
+```
+
+```{r, echo=FALSE}
+########## Null model ##########
+Null = glmer(cbind(sum, n) ~ 1 + (1|ID), data = temp_valence, family="binomial")
+# summary(Null)
+
+########## MAIN EFFECTS #############
+# word_type
+M1 = glmer(cbind(sum, n) ~ category + (1|ID), data = temp_valence, family="binomial")
+# summary(M1)
+
+########## Model Comparison ##########
+anova(Null, M1)
+# anova(Null, M1)
+# anova(Null, M2)
+# anova(Null, M3)
+
+plot(M1)
+
+qqnorm(temp_valence$sum/temp_valence$n)
+# qqnorm(log(temp_valence$sum/temp_valence$n))
+
+summary(M1)
+
+```
+
+```{r, echo=FALSE}
+##### PLOTTING
+# boxplots
+d_attach_sum %>% 
+  ggplot(aes(x = condition, y = avg)) +
+  geom_boxplot()
+
+d_valence_sum %>% 
+  ggplot(aes(x = category, y = avg)) +
+  geom_boxplot()
+
+# creating line plots
+d_attach_sum %>% 
+  ggplot(aes(x = condition, y = avg, group = ID, color = ID)) +
+  geom_line()
+
+d_attach_sum %>%
+  filter(condition != "BL") %>%  # only HA and LA
+  ggplot(aes(x = condition, y = avg, group = ID, color = ID)) +
+  geom_line()
+
+d_valence_sum %>% 
+  ggplot(aes(x = category, y = avg, group = ID, color = ID)) +
+  geom_line()
+
+```
+
+##### INVALID CODE
+```{r, echo=FALSE}
+##### quick stats
+##### NOT VALID
+# # taking out the two IDs with no values for their HA-ratings
+# count_ids <- d_attach_sum %>% count(ID)
+# id_idx <- count_ids$ID[count_ids$n==3]
+# att_wilc <- d_attach_sum[d_attach_sum$ID %in% id_idx,]
+# 
+# wilcox.test(att_wilc$avg[att_wilc$condition=="HA"], att_wilc$avg[att_wilc$condition=="LA"], paired=TRUE)
+# 
+# wilcox.test(att_wilc$avg[att_wilc$condition=="HA"], att_wilc$avg[att_wilc$condition=="BL"], paired=TRUE)
+# 
+# wilcox.test(att_wilc$avg[att_wilc$condition=="LA"], att_wilc$avg[att_wilc$condition=="BL"], paired=TRUE)
+# 
+# 
+# wilcox.test(d_valence_sum$avg[d_valence_sum$category=="positive"], d_valence_sum$avg[d_valence_sum$category=="negative"], paired=TRUE)
+
+```
+
+
+### Old code
+
+```{r, echo=FALSE}
+
+d %>% as_tibble() %>% ggplot(aes(rt)) + geom_histogram(binwidth = 30)
+
+
+d %>% filter(correct == TRUE) %>% filter(word_type =='diff_word') %>%  as_tibble() %>% group_by(video_type) %>% ggplot(aes(rt, color=video_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+d %>% filter(correct == TRUE) %>% filter(word_type =='same_word') %>%  as_tibble() %>% group_by(video_type) %>% ggplot(aes(rt, color=video_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+d %>% filter(correct == TRUE) %>% filter(word_type =='pseudoword') %>%  as_tibble() %>% group_by(video_type) %>% ggplot(aes(rt, color=video_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+
+d %>% filter(correct == TRUE) %>% filter(word_type != 'pseudoword') %>%  as_tibble() %>% group_by(word_type) %>% ggplot(aes(rt, color=word_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+
+d %>% filter(correct == TRUE) %>% filter(video_type == 'mouthing') %>% filter(word_type != 'pseudoword') %>%  as_tibble() %>% group_by(word_type) %>% ggplot(aes(rt, color=word_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+
+d %>% filter(correct == TRUE) %>% filter(video_type == 'no_mouthing') %>% filter(word_type != 'pseudoword') %>%  as_tibble() %>% group_by(word_type) %>% ggplot(aes(rt, color=word_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+
+```
+
+```{r, echo=FALSE}
+####Old code
+
+# plot different articles (mean)
+c %>% filter(correct) %>%  as_tibble() %>% separate(word, c('word', 'x'), ' ') %>%  group_by(word) %>% summarise(rt = mean(rt), n = n()) %>% arrange(rt) %>% mutate(word = factor(word, word)) %>% ggplot() + geom_col(aes(word, rt)) + theme(axis.text.x = element_text(angle = 90)) + coord_flip()
+
+# plot different articles (median)
+c %>% filter(correct) %>%  as_tibble() %>% separate(word, c('word', 'x'), ' ') %>%  group_by(word) %>% summarise(rt = median(rt), n = n()) %>% arrange(rt) %>% mutate(word = factor(word, word)) %>% ggplot() + geom_col(aes(word, rt)) + theme(axis.text.x = element_text(angle = 90)) + coord_flip()
+
+# plot histogram all rts
+c %>% filter(correct) %>%  as_tibble() %>% ggplot(aes(rt)) + geom_histogram(binwidth = 10) + 
+  # facet_wrap(~ID) +
+  NULL
+
+c %>% filter(correct) %>%  as_tibble() %>% group_by(ID) %>% ggplot(aes(rt, color=ID)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# plot histogram control vs gender
+c %>% filter(correct) %>%  as_tibble() %>% separate(stim_type, c('stim_type', 'x'), '_') %>%  group_by(stim_type) %>% ggplot(aes(rt, color=stim_type)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# plot histogram control vs gender [masc]
+c %>% filter(correct) %>% filter(str_detect(stim_type, "_masc|_lemma")) %>% as_tibble() %>%  group_by(stim_type) %>% ggplot(aes(rt, color=stim_type)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# plot histogram control vs gender [neut]
+c %>% filter(correct) %>% filter(str_detect(stim_type, "_neut|_der")) %>% as_tibble() %>%  group_by(stim_type) %>% ggplot(aes(rt, color=stim_type)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# plot histogram control vs gender [coll]
+c %>% filter(correct) %>% filter(str_detect(stim_type, "_col|_sing")) %>% as_tibble() %>%  group_by(stim_type) %>% ggplot(aes(rt, color=stim_type)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# length(c)
+# nrow(c)
+```
+
+
+```{r, echo=FALSE}
+########## Null model ##########
+Null = glmer(rating ~ (1|ID) + (1|sentence), data = d_attach, family=gaussian(link='log'))
+# summary(Null)
+
+########## MAIN EFFECTS #############
+# word_type
+M1 = glmer(rating ~ condition + (1|ID) + (1|sentence), data = d_attach, family=gaussian(link='log'))
+# summary(M1)
+
+# # word_type + video_type
+# M2 = glmer(rt ~ word_type + video_type + (1|ID) + (1|word), data = d_correct, family=gaussian(link='log'))
+# #summary(M2)
+# 
+# # word_type*video_type
+# M3 = glmer(rt ~ word_type*video_type + (1|ID) + (1|word), data = d_correct, family=gaussian(link='log'))
+# #summary(M3)
+
+# # kind*group
+# M4 = lmer(corr_coef ~ epoch_bin + kind*group + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M4)
+# 
+# # kind*group + epoch_bin*kind
+# M5 = lmer(corr_coef ~ epoch_bin*kind + kind*group + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M5)
+# 
+# # kind*group + epoch_bin*kind + epoch_bin*group
+# M6 = lmer(corr_coef ~ epoch_bin*group + epoch_bin*kind + kind*group + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M6)
+# 
+# # epoch_bin*group*kind
+# M7 = lmer(corr_coef ~ epoch_bin*group*kind + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M7)
+
+########## Model Comparison ##########
+anova(Null, M1)
+# anova(Null, M1)
+# anova(Null, M2)
+# anova(Null, M3)
+
+plot(M1)
+
+qqnorm(d_attach$rating)
+qqnorm(log(d_attach$rating))
+
+summary(M1)
+```
+
+
+```{r, echo=FALSE}
+########## Null model ##########
+null = lmer(log(rt) ~ (1|ID) + (1|word), data = d_correct)
+# summary(Null)
+
+########## MAIN EFFECTS #############
+# word_type
+m1 = lmer(log(rt) ~ word_type + (1|ID) + (1|word), data = d_correct)
+# summary(M1)
+
+# word_type + video_type
+m2 = lmer(log(rt) ~ word_type + video_type + (1|ID) + (1|word), data = d_correct)
+#summary(M2)
+
+# word_type*video_type
+m3 = lmer(log(rt) ~ word_type*video_type + (1|ID) + (1|word), data = d_correct)
+#summary(M3)
+
+# # kind*group
+# M4 = lmer(corr_coef ~ epoch_bin + kind*group + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M4)
+# 
+# # kind*group + epoch_bin*kind
+# M5 = lmer(corr_coef ~ epoch_bin*kind + kind*group + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M5)
+# 
+# # kind*group + epoch_bin*kind + epoch_bin*group
+# M6 = lmer(corr_coef ~ epoch_bin*group + epoch_bin*kind + kind*group + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M6)
+# 
+# # epoch_bin*group*kind
+# M7 = lmer(corr_coef ~ epoch_bin*group*kind + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M7)
+
+########## Model Comparison ##########
+anova(null, m1, m2, m3)
+# anova(Null, M1)
+# anova(Null, M2)
+# anova(Null, M3)
+
+plot(m3)
+```
+
+```{r, echo=FALSE}
+########## Null model ##########
+nulla = lmer(rt ~ (1|ID) + (1|word), data = d_correct)
+# summary(Null)
+
+########## MAIN EFFECTS #############
+# word_type
+m1a = lmer(rt ~ word_type + (1|ID) + (1|word), data = d_correct)
+# summary(M1)
+
+# word_type + video_type
+m2a = lmer(rt ~ word_type + video_type + (1|ID) + (1|word), data = d_correct)
+#summary(M2)
+
+# word_type*video_type
+m3a = lmer(rt ~ word_type*video_type + (1|ID) + (1|word), data = d_correct)
+#summary(M3)
+
+# # kind*group
+# M4 = lmer(corr_coef ~ epoch_bin + kind*group + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M4)
+# 
+# # kind*group + epoch_bin*kind
+# M5 = lmer(corr_coef ~ epoch_bin*kind + kind*group + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M5)
+# 
+# # kind*group + epoch_bin*kind + epoch_bin*group
+# M6 = lmer(corr_coef ~ epoch_bin*group + epoch_bin*kind + kind*group + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M6)
+# 
+# # epoch_bin*group*kind
+# M7 = lmer(corr_coef ~ epoch_bin*group*kind + (1|ID) + (1|word), data = all_diag_long)
+# #summary(M7)
+
+########## Model Comparison ##########
+anova(nulla, m1a, m2a, m3a)
+# anova(Null, M1)
+# anova(Null, M2)
+# anova(Null, M3)
+
+plot(m3a)
+plot(m3)
+
+```
+
+
+```{r, echo=FALSE}
+
+d %>% as_tibble() %>% ggplot(aes(rt)) + geom_histogram(binwidth = 30)
+
+
+d %>% filter(correct == TRUE) %>% filter(word_type =='diff_word') %>%  as_tibble() %>% group_by(video_type) %>% ggplot(aes(rt, color=video_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+d %>% filter(correct == TRUE) %>% filter(word_type =='same_word') %>%  as_tibble() %>% group_by(video_type) %>% ggplot(aes(rt, color=video_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+d %>% filter(correct == TRUE) %>% filter(word_type =='pseudoword') %>%  as_tibble() %>% group_by(video_type) %>% ggplot(aes(rt, color=video_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+
+d %>% filter(correct == TRUE) %>% filter(word_type != 'pseudoword') %>%  as_tibble() %>% group_by(word_type) %>% ggplot(aes(rt, color=word_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+
+d %>% filter(correct == TRUE) %>% filter(video_type == 'mouthing') %>% filter(word_type != 'pseudoword') %>%  as_tibble() %>% group_by(word_type) %>% ggplot(aes(rt, color=word_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+
+d %>% filter(correct == TRUE) %>% filter(video_type == 'no_mouthing') %>% filter(word_type != 'pseudoword') %>%  as_tibble() %>% group_by(word_type) %>% ggplot(aes(rt, color=word_type)) + geom_histogram(binwidth = 50, fill="white", position="dodge")
+
+```
+
+```{r, echo=FALSE}
+####Old code
+
+# plot different articles (mean)
+c %>% filter(correct) %>%  as_tibble() %>% separate(word, c('word', 'x'), ' ') %>%  group_by(word) %>% summarise(rt = mean(rt), n = n()) %>% arrange(rt) %>% mutate(word = factor(word, word)) %>% ggplot() + geom_col(aes(word, rt)) + theme(axis.text.x = element_text(angle = 90)) + coord_flip()
+
+# plot different articles (median)
+c %>% filter(correct) %>%  as_tibble() %>% separate(word, c('word', 'x'), ' ') %>%  group_by(word) %>% summarise(rt = median(rt), n = n()) %>% arrange(rt) %>% mutate(word = factor(word, word)) %>% ggplot() + geom_col(aes(word, rt)) + theme(axis.text.x = element_text(angle = 90)) + coord_flip()
+
+# plot histogram all rts
+c %>% filter(correct) %>%  as_tibble() %>% ggplot(aes(rt)) + geom_histogram(binwidth = 10) + 
+  # facet_wrap(~ID) +
+  NULL
+
+c %>% filter(correct) %>%  as_tibble() %>% group_by(ID) %>% ggplot(aes(rt, color=ID)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# plot histogram control vs gender
+c %>% filter(correct) %>%  as_tibble() %>% separate(stim_type, c('stim_type', 'x'), '_') %>%  group_by(stim_type) %>% ggplot(aes(rt, color=stim_type)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# plot histogram control vs gender [masc]
+c %>% filter(correct) %>% filter(str_detect(stim_type, "_masc|_lemma")) %>% as_tibble() %>%  group_by(stim_type) %>% ggplot(aes(rt, color=stim_type)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# plot histogram control vs gender [neut]
+c %>% filter(correct) %>% filter(str_detect(stim_type, "_neut|_der")) %>% as_tibble() %>%  group_by(stim_type) %>% ggplot(aes(rt, color=stim_type)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# plot histogram control vs gender [coll]
+c %>% filter(correct) %>% filter(str_detect(stim_type, "_col|_sing")) %>% as_tibble() %>%  group_by(stim_type) %>% ggplot(aes(rt, color=stim_type)) + geom_histogram(binwidth = 30, fill="white", position="dodge")
+
+# length(c)
+# nrow(c)
+```
+
